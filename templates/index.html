@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CrackLab – Password Security Learning Tool</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.2/socket.io.js"></script>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"/>
+</head>
+<body>
+  <!-- Toast container for showMessage() -->
+  <div id="toast-container"></div>
+  
+  <!-- Crypto API Warning (for non-HTTPS) -->
+  <div id="cryptoWarning" class="warning-box" style="display: none; position: fixed; top: 10px; left: 50%; transform: translateX(-50%); z-index: 1003;">
+    <p>⚠️ Web Crypto API not available. Vault requires HTTPS or localhost.</p>
+  </div>
+
+  <div class="app-container">
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+      <h2>🔐 CrackLab</h2>
+      <nav>
+        <ul>
+          <li><a href="#" data-module="analyzer">Analyzer</a></li>
+          <li><a href="#" data-module="generator">Generator</a></li>
+          <li><a href="#" data-module="hashlab">Hash Lab</a></li>
+          <li><a href="#" data-module="vault">🔐 Vault</a></li>
+        </ul>
+      </nav>
+    </aside>
+
+    <!-- Main content area -->
+    <main class="content">
+      <!-- 1. Analyzer -->
+      <section id="analyzer" class="module">
+        <div class="container">
+          <div class="header">
+            <h1>🔐 CrackLab</h1>
+            <p class="subtitle">Interactive Password Security Learning Tool</p>
+            <p class="description">
+              Python Flask Edition – Learn how password attacks work safely
+            </p>
+          </div>
+
+          <div class="main-content">
+            <!-- Password Analysis card -->
+            <div class="card">
+              <h2>Password Analysis</h2>
+              <div class="input-group">
+                <label for="password">Enter Password to Analyze:</label>
+                <input
+                  type="password"
+                  id="password"
+                  placeholder="Enter password to test..."
+                  autocomplete="off"
+                />
+                <button class="btn" id="togglePasswordBtn">👁️ Show/Hide</button>
+              </div>
+              <div class="strength-meter">
+                <label>Password Strength:</label>
+                <div class="strength-bar">
+                  <div class="strength-fill" id="strengthFill"></div>
+                </div>
+                <div id="strengthText">Enter a password to analyze</div>
+                <div id="strengthFeedback" class="feedback"></div>
+              </div>
+              <div id="breachStatus" class="breach-status" style="display: none;">
+                <div id="breachText"></div>
+              </div>
+            </div>
+
+            <!-- Attack Statistics card -->
+            <div class="card">
+              <h2>Attack Statistics</h2>
+              <div class="stats">
+                <div class="stat-item">
+                  <div class="stat-value" id="attemptsCount">0</div>
+                  <div class="stat-label">Attempts Made</div>
+                </div>
+                <div class="stat-item">
+                  <div class="stat-value" id="timeElapsed">0.0s</div>
+                  <div class="stat-label">Time Elapsed</div>
+                </div>
+                <div class="stat-item">
+                  <div class="stat-value" id="attackSpeed">0</div>
+                  <div class="stat-label">Attempts/Second</div>
+                </div>
+                <div class="stat-item">
+                  <div class="stat-value" id="estimatedTime">-</div>
+                  <div class="stat-label">Est. Time to Crack</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Attack Simulation card -->
+            <div class="card attack-section">
+              <h2>Attack Simulation</h2>
+              <div class="attack-controls">
+                <button class="btn" id="dictionaryAttackBtn">🔍 Dictionary Attack</button>
+                <button class="btn" id="bruteForceAttackBtn">⚡ Brute Force Attack</button>
+                <button class="btn btn-danger" id="stopAttackBtn">⏹️ Stop Attack</button>
+                <button class="btn btn-success" id="clearOutputBtn">🗑️ Clear Output</button>
+              </div>
+              <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+              </div>
+              <div class="attack-output" id="attackOutput">
+                Welcome to CrackLab Python Edition! 🔐<br/><br/>
+                Instructions:<br/>
+                1. Enter a password in the analysis section above<br/>
+                2. Choose an attack method (Dictionary or Brute Force)<br/>
+                3. Watch the real-time simulation of password cracking<br/>
+                4. Learn how different passwords resist various attacks<br/><br/>
+                Educational Note: This Python application simulates password attacks
+                for learning purposes only. Use this knowledge to create stronger passwords!<br/><br/>
+                Features:<br/>
+                • Real-time WebSocket communication<br/>
+                • Professional Flask backend<br/>
+                • Realistic attack simulation speeds<br/>
+                • Educational breach database checking
+              </div>
+            </div>
+          </div>
+
+          <footer class="footer">
+            <p>&copy; 2024 CrackLab – Educational Cybersecurity Tool</p>
+            <p>Built with Flask, WebSockets, and modern web technologies</p>
+          </footer>
+        </div>
+      </section>
+
+      <!-- 2. Generator -->
+      <section id="generator" class="module hidden">
+        <div class="card">
+          <h4>Personalized Passphrase</h4>
+          <div class="input-group">
+            <label for="cuePlace">Favorite place:</label>
+            <input
+              type="text"
+              id="cuePlace"
+              name="cuePlace"
+              placeholder="e.g. Paris"
+              autocomplete="off"
+              autocorrect="off"
+              autocapitalize="off"
+              spellcheck="false"
+            />
+          </div>
+          <div class="input-group">
+            <label for="cuePet">Childhood pet:</label>
+            <input
+              type="text"
+              id="cuePet"
+              name="cuePet"
+              placeholder="e.g. Buddy"
+              autocomplete="off"
+              autocorrect="off"
+              autocapitalize="off"
+              spellcheck="false"
+            />
+          </div>
+          <div class="input-group">
+            <label for="cueNum">Memorable number:</label>
+            <input
+              type="text"
+              id="cueNum"
+              name="cueNum"
+              placeholder="e.g. 23"
+              autocomplete="off"
+              autocorrect="off"
+              autocapitalize="off"
+              spellcheck="false"
+            />
+          </div>
+          <div class="input-group">
+            <label for="cueHobby">Hobby or interest:</label>
+            <input
+              type="text"
+              id="cueHobby"
+              name="cueHobby"
+              placeholder="e.g. Guitar"
+              autocomplete="off"
+              autocorrect="off"
+              autocapitalize="off"
+              spellcheck="false"
+            />
+          </div>
+          <button class="btn" id="generatePersonalBtn">Generate Personal Passphrase</button>
+        </div>
+
+        <div class="card" style="margin-top: 1rem;">
+          <h4>Result</h4>
+          <div class="input-group">
+            <input
+              type="text"
+              id="personalPassword"
+              readonly
+              autocomplete="off"
+            />
+            <button class="btn" id="copyPersonalBtn">📋 Copy</button>
+          </div>
+        </div>
+      </section>
+
+<!-- 3. Hash Lab -->
+<section id="hashlab" class="module hidden">
+  <div class="container">
+    <div class="main-content">
+      <!-- Hash Input Card -->
+      <div class="card">
+        <h2>🔐 Hash Laboratory</h2>
+        <p class="description">Generate cryptographic hashes for any text using various algorithms</p>
+        
+        <div class="input-group">
+          <label for="hashInput">Text to Hash:</label>
+          <textarea 
+            id="hashInput" 
+            placeholder="Enter text to generate hash..."
+            rows="3"
+            autocomplete="off"
+            spellcheck="false"
+          ></textarea>
+        </div>
+        
+        <div class="input-group">
+          <label for="hashAlgorithm">Hash Algorithm:</label>
+          <select id="hashAlgorithm" class="hash-select">
+            <option value="md5">MD5 (128-bit)</option>
+            <option value="sha1">SHA-1 (160-bit)</option>
+            <option value="sha256" selected>SHA-256 (256-bit)</option>
+            <option value="sha512">SHA-512 (512-bit)</option>
+          </select>
+        </div>
+        
+        <div class="hash-controls">
+          <button class="btn" id="computeHashBtn">⚡ Compute Hash</button>
+          <button class="btn btn-success" id="copyHashBtn" disabled>📋 Copy Hash</button>
+          <button class="btn" id="clearHashBtn">🗑️ Clear</button>
+        </div>
+      </div>
+      
+      <!-- Hash Output Card -->
+      <div class="card">
+        <h2>📊 Hash Results</h2>
+        
+        <div class="hash-info" id="hashInfo" style="display: none;">
+          <div class="info-row">
+            <span class="info-label">Algorithm:</span>
+            <span class="info-value" id="hashAlgorithmDisplay">-</span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">Input Length:</span>
+            <span class="info-value" id="hashInputLength">-</span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">Hash Length:</span>
+            <span class="info-value" id="hashOutputLength">-</span>
+          </div>
+        </div>
+        
+        <div class="input-group">
+          <label for="hashOutput">Generated Hash:</label>
+          <textarea 
+            id="hashOutput" 
+            placeholder="Hash will appear here..."
+            rows="4"
+            readonly
+            class="hash-output-field"
+          ></textarea>
+        </div>
+        
+        <!-- Hash Comparison Tool -->
+        <div class="hash-comparison" id="hashComparison" style="display: none;">
+          <h3>🔍 Hash Comparison</h3>
+          <div class="input-group">
+            <label for="compareHash">Compare with Hash:</label>
+            <input 
+              type="text" 
+              id="compareHash" 
+              placeholder="Paste hash to compare..."
+              autocomplete="off"
+            />
+          </div>
+          <div class="comparison-result" id="comparisonResult"></div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Hash Education Section -->
+    <div class="card">
+      <h2>📚 Hash Algorithm Information</h2>
+      <div class="hash-education" id="hashEducation">
+        <div class="algorithm-info" data-algorithm="md5">
+          <h4>MD5 (Message Digest 5)</h4>
+          <ul>
+            <li><strong>Output:</strong> 128-bit (32 hex characters)</li>
+            <li><strong>Security:</strong> Cryptographically broken - not recommended for security</li>
+            <li><strong>Speed:</strong> Very fast</li>
+            <li><strong>Use Cases:</strong> Checksums, non-cryptographic applications</li>
+          </ul>
+        </div>
+        
+        <div class="algorithm-info" data-algorithm="sha1">
+          <h4>SHA-1 (Secure Hash Algorithm 1)</h4>
+          <ul>
+            <li><strong>Output:</strong> 160-bit (40 hex characters)</li>
+            <li><strong>Security:</strong> Deprecated for cryptographic use since 2017</li>
+            <li><strong>Speed:</strong> Fast</li>
+            <li><strong>Use Cases:</strong> Legacy systems, version control (Git)</li>
+          </ul>
+        </div>
+        
+        <div class="algorithm-info" data-algorithm="sha256" style="display: block;">
+          <h4>SHA-256 (Secure Hash Algorithm 256)</h4>
+          <ul>
+            <li><strong>Output:</strong> 256-bit (64 hex characters)</li>
+            <li><strong>Security:</strong> Currently secure and widely recommended</li>
+            <li><strong>Speed:</strong> Moderate</li>
+            <li><strong>Use Cases:</strong> Digital signatures, certificates, blockchain</li>
+          </ul>
+        </div>
+        
+        <div class="algorithm-info" data-algorithm="sha512">
+          <h4>SHA-512 (Secure Hash Algorithm 512)</h4>
+          <ul>
+            <li><strong>Output:</strong> 512-bit (128 hex characters)</li>
+            <li><strong>Security:</strong> Very secure, highest security level</li>
+            <li><strong>Speed:</strong> Slower but more secure</li>
+            <li><strong>Use Cases:</strong> High-security applications, long-term storage</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 4. Vault -->
+<section id="vault" class="module hidden">
+    <!-- Master Password Screen -->
+    <div id="masterPasswordScreen" class="master-screen" style="display: none;">
+        <div class="master-card">
+            <div class="vault-header">
+                <h1>🔐 CrackLab Vault</h1>
+                <p class="subtitle">Secure Password Manager</p>
+                <div class="breadcrumb">
+                    <a href="#" class="breadcrumb-link" data-module="analyzer">← Back to Analyzer</a>
+                </div>
+            </div>
+            
+            <div class="mode-selector">
+                <button id="unlockModeBtn" class="mode-btn active">Unlock Vault</button>
+                <button id="createModeBtn" class="mode-btn">Create New Vault</button>
+            </div>
+            
+            <form id="masterPasswordForm" class="master-form">
+                <div class="form-group" id="vaultNameGroup" style="display: none;">
+                    <label for="vaultName">Vault Name</label>
+                    <input type="text" id="vaultName" class="master-input" value="My Vault">
+                </div>
+                
+                <div class="form-group">
+                    <label for="masterPassword">Master Password</label>
+                    <div class="password-input-group">
+                        <input type="password" id="masterPassword" class="master-input" required>
+                        <button type="button" id="toggleMasterPassword" class="toggle-btn">👁️</button>
+                    </div>
+                </div>
+                
+                <div class="form-group" id="confirmPasswordGroup" style="display: none;">
+                    <label for="confirmPassword">Confirm Password</label>
+                    <div class="password-input-group">
+                        <input type="password" id="confirmPassword" class="master-input">
+                        <button type="button" id="toggleConfirmPassword" class="toggle-btn">👁️</button>
+                    </div>
+                </div>
+                
+                <div id="strengthIndicator" class="strength-indicator" style="display: none;">
+                    <div class="strength-bar">
+                        <div id="strengthFill" class="strength-fill"></div>
+                    </div>
+                    <div id="strengthText" class="strength-text">Password Strength</div>
+                    <div id="strengthFeedback" class="strength-feedback"></div>
+                </div>
+                
+                <button type="submit" id="masterSubmit" class="master-submit">🔓 Unlock Vault</button>
+            </form>
+            
+            <div class="master-info">
+                <div class="info-card">
+                    <h3>About CrackLab Vault</h3>
+                    <ul>
+                        <li>Client-side encryption using Web Crypto API</li>
+                        <li>AES-256-GCM encryption algorithm</li>
+                        <li>PBKDF2 key derivation (100,000 iterations)</li>
+                        <li>Your passwords never leave your device</li>
+                        <li>All data stored locally in your browser</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Main Vault Interface -->
+    <div id="vaultInterface" class="vault-interface" style="display: none;">
+        <div class="vault-header-bar">
+            <div class="header-left">
+                <h1>🔐 <span id="vaultDisplayName">CrackLab Vault</span></h1>
+                <div class="vault-status">
+                    <span class="status-dot"></span>
+                    <span>Vault Unlocked</span>
+                </div>
+            </div>
+            <div class="header-right">
+                <button id="changePasswordBtn" class="btn btn-secondary">🔑 Change Master Password</button>
+                <button id="toggleCryptoBtn" class="btn btn-secondary">📊 Show Crypto</button>
+                <button id="lockVaultBtn" class="btn btn-danger">🔒 Lock Vault</button>
+            </div>
+        </div>
+        
+        <div class="vault-main">
+            <div class="credentials-panel">
+                <div class="add-credential-card">
+                    <h2>Add New Credential</h2>
+                    <form id="addCredentialForm" class="credential-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="siteName">Site/Service Name</label>
+                                <input type="text" id="siteName" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="username">Username/Email</label>
+                                <input type="text" id="username" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Password</label>
+                            <div class="password-generator-group">
+                                <input type="password" id="password" required>
+                                <button type="button" id="togglePasswordBtn" class="btn btn-small">👁️</button>
+                                <button type="button" id="generatePasswordBtn" class="btn btn-small btn-generate">🎲 Generate</button>
+                            </div>
+                        </div>
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary">💾 Save Credential</button>
+                            <button type="button" id="cancelEditBtn" class="btn btn-secondary" style="display: none;">❌ Cancel Edit</button>
+                        </div>
+                    </form>
+                </div>
+                
+                <div class="credentials-list-card">
+                    <div class="list-header">
+                        <h2>Saved Credentials</h2>
+                        <div class="search-box">
+                            <input type="text" id="searchCredentials" placeholder="Search...">
+                        </div>
+                    </div>
+                    <div id="credentialsList" class="credentials-list">
+                        <!-- Credentials will be dynamically added here -->
+                    </div>
+                </div>
+            </div>
+            
+            <div id="cryptoPanel" class="crypto-panel hidden">
+                <div class="crypto-card">
+                    <div class="crypto-header">
+                        <h2>🔒 Cryptography Details</h2>
+                        <button id="cryptoHelpToggle" class="help-toggle" aria-label="Toggle help">?</button>
+                    </div>
+                    
+                    <div class="crypto-stats">
+                        <div class="stat-group">
+                            <h3>Key Derivation (KDF)</h3>
+                            <div class="stat-item">
+                                <span class="stat-label">Algorithm:</span>
+                                <span class="stat-value">PBKDF2</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Iterations:</span>
+                                <span id="kdfIterations" class="stat-value">100,000</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Salt:</span>
+                                <span id="kdfSalt" class="stat-value mono">-</span>
+                            </div>
+                        </div>
+                        
+                        <div class="stat-group">
+                            <h3>Encryption</h3>
+                            <div class="stat-item">
+                                <span class="stat-label">Algorithm:</span>
+                                <span class="stat-value">AES-256-GCM</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">IV:</span>
+                                <span id="encIv" class="stat-value mono">-</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Auth Tag:</span>
+                                <span id="encTag" class="stat-value mono">-</span>
+                            </div>
+                        </div>
+                        
+                        <div class="stat-group">
+                            <h3>Storage</h3>
+                            <div class="stat-item">
+                                <span class="stat-label">Credentials:</span>
+                                <span id="storageCount" class="stat-value">0</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Size:</span>
+                                <span id="storageSize" class="stat-value">0 bytes</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="cryptoEducation" class="crypto-education" style="display: none;">
+                        <div class="education-section">
+                            <h4>🔑 PBKDF2 (Password-Based Key Derivation)</h4>
+                            <p>Transforms your master password into a cryptographic key using 100,000 iterations, making brute-force attacks computationally expensive.</p>
+                        </div>
+                        <div class="education-section">
+                            <h4>🔐 AES-256-GCM Encryption</h4>
+                            <p>Military-grade encryption that provides both confidentiality and authenticity. The 256-bit key length offers strong security against attacks.</p>
+                        </div>
+                        <div class="education-section">
+                            <h4>🎲 Cryptographic Randomness</h4>
+                            <p>Uses Web Crypto API's secure random number generator for salts, IVs, and password generation.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Password Generator Modal -->
+    <div id="passwordGeneratorModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>🎲 Password Generator</h3>
+                <button id="closeGeneratorModal" class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="generator-options">
+                    <div class="option-group">
+                        <label>Password Length: <span id="lengthValue">16</span></label>
+                        <input type="range" id="passwordLength" min="8" max="32" value="16">
+                    </div>
+                    <div class="option-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="includeUppercase" checked>
+                            Include Uppercase (A-Z)
+                        </label>
+                    </div>
+                    <div class="option-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="includeLowercase" checked>
+                            Include Lowercase (a-z)
+                        </label>
+                    </div>
+                    <div class="option-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="includeNumbers" checked>
+                            Include Numbers (0-9)
+                        </label>
+                    </div>
+                    <div class="option-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="includeSymbols" checked>
+                            Include Symbols (!@#$%...)
+                        </label>
+                    </div>
+                </div>
+                <div class="generated-password">
+                    <input type="text" id="generatedPassword" readonly>
+                    <button id="regenerateBtn" class="btn btn-small">🔄</button>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="useGeneratedPasswordBtn" class="btn btn-primary">Use Password</button>
+                <button id="cancelGeneratorBtn" class="btn btn-secondary">Cancel</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Change Master Password Modal -->
+    <div id="changeMasterPasswordModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>🔑 Change Master Password</h3>
+                <button id="closeMasterPasswordModal" class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="changeMasterPasswordForm">
+                    <div class="form-group">
+                        <label for="currentMasterPassword">Current Master Password</label>
+                        <input type="password" id="currentMasterPassword" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="newMasterPassword">New Master Password</label>
+                        <input type="password" id="newMasterPassword" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="confirmNewMasterPassword">Confirm New Password</label>
+                        <input type="password" id="confirmNewMasterPassword" required>
+                    </div>
+                    <div class="warning-box">
+                        <p>⚠️ Changing your master password will re-encrypt all stored credentials. This process cannot be undone.</p>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button id="confirmChangePasswordBtn" class="btn btn-primary">Change Password</button>
+                <button id="cancelChangePasswordBtn" class="btn btn-secondary">Cancel</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay" class="loading-overlay" style="display: none;">
+        <div class="loading-content">
+            <div class="spinner"></div>
+            <p id="loadingText">Processing...</p>
+        </div>
+    </div>
+</section>
+
+    </main>
+  </div>
+
+  <!-- FIXED: Single navigation script that replaces both previous scripts -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log('🔧 Navigation system initializing...');
+        
+        // Initialize the main app first
+        if (typeof initializeApp === 'function') {
+            initializeApp();
+        }
+        
+        // Set up navigation with proper vault handling
+        setupNavigation();
+        
+        // Show analyzer by default
+        showModule('analyzer');
+    });
+
+    function setupNavigation() {
+        document.querySelectorAll('.sidebar nav a').forEach(link => {
+            link.addEventListener('click', e => {
+                e.preventDefault();
+                const target = link.dataset.module;
+                showModule(target);
+            });
+        });
+    }
+
+    function showModule(moduleId) {
+        console.log(`🔄 Switching to module: ${moduleId}`);
+        
+        // Hide all modules
+        document.querySelectorAll('.module').forEach(sec => {
+            sec.classList.add('hidden');
+        });
+        
+        // Show target module
+        const targetModule = document.getElementById(moduleId);
+        if (targetModule) {
+            targetModule.classList.remove('hidden');
+        }
+        
+        // Handle special module logic
+        switch(moduleId) {
+            case 'dashboard':
+                if (typeof loadDashboard === 'function') {
+                    loadDashboard();
+                }
+                break;
+                
+            case 'vault':
+                handleVaultNavigation();
+                break;
+        }
+    }
+
+    function handleVaultNavigation() {
+        console.log('🔐 Handling vault navigation...');
+        
+        // Initialize vault if not already done
+        if (!window.Vault || !window.Vault.initialized) {
+            initializeVault();
+        }
+        
+        // Determine which screen to show
+        const hasVault = checkVaultExists();
+        const isUnlocked = window.Vault && window.Vault.state.isUnlocked;
+        
+        const masterScreen = document.getElementById('masterPasswordScreen');
+        const vaultInterface = document.getElementById('vaultInterface');
+        
+        if (masterScreen && vaultInterface) {
+            if (isUnlocked) {
+                // Show vault interface if already unlocked
+                masterScreen.style.display = 'none';
+                vaultInterface.style.display = 'flex';
+                console.log('✅ Showing unlocked vault interface');
+            } else {
+                // Show master password screen
+                masterScreen.style.display = 'flex';
+                vaultInterface.style.display = 'none';
+                
+                // Set appropriate mode
+                if (hasVault) {
+                    if (typeof setMasterPasswordMode === 'function') {
+                        setMasterPasswordMode('unlock');
+                    }
+                } else {
+                    if (typeof setMasterPasswordMode === 'function') {
+                        setMasterPasswordMode('create');
+                    }
+                }
+                
+                console.log(`🔑 Showing master password screen (${hasVault ? 'unlock' : 'create'} mode)`);
+            }
+        }
+    }
+
+    function initializeVault() {
+        console.log('🔐 Initializing vault...');
+        
+        if (window.Vault) {
+            window.Vault.initialized = true;
+            
+            // Cache elements now that vault module is visible
+            if (typeof cacheVaultElements === 'function') {
+                cacheVaultElements();
+            }
+            
+            // Setup event listeners
+            if (typeof setupVaultEventListeners === 'function') {
+                setupVaultEventListeners();
+            }
+            
+            // Initialize UI
+            if (typeof initializeVaultUI === 'function') {
+                initializeVaultUI();
+            }
+            
+            // Initialize password generator
+            if (typeof initializePasswordGenerator === 'function') {
+                initializePasswordGenerator();
+            }
+            
+            console.log('✅ Vault initialized successfully');
+        }
+    }
+
+    // Helper function to check if vault exists
+    function checkVaultExists() {
+        if (!window.Vault || !window.Vault.config) {
+            return false;
+        }
+        return localStorage.getItem(window.Vault.config.storagePrefix + 'salt') !== null;
+    }
+  </script>
+
+  <!-- Load main script -->
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

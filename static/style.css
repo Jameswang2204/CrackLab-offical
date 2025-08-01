@@ -1,0 +1,1920 @@
+/* CrackLab - Password Security Learning Tool CSS */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+    min-height: 100vh;
+    color: #333;
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Header Styles */
+.header {
+    text-align: center;
+    margin-bottom: 30px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 30px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+h1 {
+    color: #fff;
+    font-size: 2.5em;
+    margin-bottom: 10px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.subtitle {
+    color: #e0e0e0;
+    font-size: 1.1em;
+    margin-bottom: 10px;
+    font-weight: 500;
+}
+
+.description {
+    color: #ccc;
+    font-size: 0.9em;
+}
+
+/* Main Content Layout */
+.main-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    margin-bottom: 30px;
+}
+
+/* Card Styles */
+.card {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 15px;
+    padding: 25px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+}
+
+.card h2 {
+    color: #2a5298;
+    margin-bottom: 20px;
+    font-size: 1.5em;
+    border-bottom: 2px solid #2a5298;
+    padding-bottom: 10px;
+}
+
+/* Form Elements */
+.input-group {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #555;
+}
+
+input[type="password"], 
+input[type="text"] {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    font-size: 16px;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    margin-bottom: 10px;
+}
+
+input[type="password"]:focus, 
+input[type="text"]:focus {
+    outline: none;
+    border-color: #2a5298;
+    box-shadow: 0 0 10px rgba(42, 82, 152, 0.3);
+}
+
+/* Button Styles */
+.btn {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    transition: transform 0.2s, box-shadow 0.2s;
+    margin-right: 10px;
+    margin-bottom: 10px;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.btn:active {
+    transform: translateY(0);
+}
+
+.btn-danger {
+    background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
+}
+
+.btn-success {
+    background: linear-gradient(135deg, #4ecdc4 0%, #44a08d 100%);
+}
+
+.btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* Password Strength Meter */
+.strength-meter {
+    margin-top: 15px;
+}
+
+.strength-bar {
+    width: 100%;
+    height: 20px;
+    background: #e0e0e0;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+}
+
+.strength-fill {
+    height: 100%;
+    transition: width 0.3s ease, background-color 0.3s ease;
+    border-radius: 10px;
+}
+
+.strength-weak {
+    background: linear-gradient(90deg, #ff4444, #ff6666);
+}
+
+.strength-fair {
+    background: linear-gradient(90deg, #ff8800, #ffaa00);
+}
+
+.strength-good {
+    background: linear-gradient(90deg, #88cc00, #aadd00);
+}
+
+.strength-strong {
+    background: linear-gradient(90deg, #00cc44, #00dd66);
+}
+
+.feedback {
+    margin-top: 10px;
+    font-size: 0.9em;
+    color: #666;
+}
+
+.feedback ul {
+    margin-left: 20px;
+}
+
+/* Breach Status */
+.breach-status {
+    margin-top: 15px;
+    padding: 15px;
+    border-radius: 8px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.breach-found {
+    background: #ffebee;
+    color: #c62828;
+    border: 1px solid #ef5350;
+    animation: pulse-red 2s infinite;
+}
+
+.breach-safe {
+    background: #e8f5e8;
+    color: #2e7d32;
+    border: 1px solid #4caf50;
+}
+
+@keyframes pulse-red {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.02); }
+}
+
+/* Attack Section */
+.attack-section {
+    grid-column: span 2;
+}
+
+.attack-controls {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 8px;
+    background: #e0e0e0;
+    border-radius: 4px;
+    overflow: hidden;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #667eea, #764ba2);
+    width: 0%;
+    transition: width 0.3s ease;
+}
+
+.attack-output {
+    background: #1a1a1a;
+    color: #00ff00;
+    padding: 20px;
+    border-radius: 8px;
+    font-family: 'Courier New', monospace;
+    min-height: 300px;
+    max-height: 500px;
+    overflow-y: auto;
+    border: 2px solid #333;
+    white-space: pre-wrap;
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+.attack-output::-webkit-scrollbar {
+    width: 8px;
+}
+
+.attack-output::-webkit-scrollbar-track {
+    background: #2a2a2a;
+}
+
+.attack-output::-webkit-scrollbar-thumb {
+    background: #555;
+    border-radius: 4px;
+}
+
+.attack-output::-webkit-scrollbar-thumb:hover {
+    background: #777;
+}
+
+/* Statistics */
+.stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.stat-item {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 15px;
+    border-radius: 8px;
+    text-align: center;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transition: all 0.3s ease;
+}
+
+.stat-item.stat-active {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: #4ecdc4;
+}
+
+/* Main app wrapper stretches full height and uses flex */
+.app-container {
+    display: flex;
+    height: 100vh;
+}
+
+/* Sidebar styling */
+.sidebar {
+    width: 200px;
+    background: #2c3e50;
+    color: #fff;
+    padding: 1rem;
+    flex-shrink: 0;
+}
+
+/* Remove bullets & padding from sidebar list */
+.sidebar nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* Sidebar links */
+.sidebar nav a {
+    display: block;
+    color: #fff;
+    text-decoration: none;
+    margin: 0.5rem 0;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    transition: background 0.2s;
+}
+
+.sidebar nav a:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+/* Main content area */
+.content {
+    flex: 1;
+    padding: 1rem;
+    overflow-y: auto;
+    background: transparent;
+}
+
+/* Hide inactive modules */
+.module.hidden {
+    display: none !important;
+}
+
+/* Dashboard overrides */
+#dashboard .stat-item {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: #4ecdc4;
+}
+#dashboard .stat-value {
+  font-size: 2em;
+  color: #4ecdc4;
+}
+
+/* Hash Laboratory Styles */
+.hash-select {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    font-size: 16px;
+    background: white;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    margin-bottom: 10px;
+}
+
+.hash-select:focus {
+    outline: none;
+    border-color: #2a5298;
+    box-shadow: 0 0 10px rgba(42, 82, 152, 0.3);
+}
+
+.hash-controls {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.hash-output-field {
+    font-family: 'Courier New', monospace;
+    background: #f8f9fa;
+    border: 2px solid #e9ecef;
+    word-break: break-all;
+    resize: vertical;
+}
+
+.hash-output-field:focus {
+    border-color: #2a5298;
+    box-shadow: 0 0 10px rgba(42, 82, 152, 0.3);
+}
+
+/* Hash Information Display */
+.hash-info {
+    background: rgba(42, 82, 152, 0.1);
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid rgba(42, 82, 152, 0.2);
+}
+
+.info-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    font-size: 0.9em;
+}
+
+.info-row:last-child {
+    margin-bottom: 0;
+}
+
+.info-label {
+    font-weight: bold;
+    color: #2a5298;
+}
+
+.info-value {
+    font-family: 'Courier New', monospace;
+    color: #333;
+    background: rgba(255, 255, 255, 0.7);
+    padding: 2px 6px;
+    border-radius: 4px;
+}
+
+/* Hash Comparison */
+.hash-comparison {
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 15px;
+    margin-top: 20px;
+    border: 1px solid #e9ecef;
+}
+
+.hash-comparison h3 {
+    margin-bottom: 15px;
+    color: #2a5298;
+    font-size: 1.1em;
+}
+
+.comparison-result {
+    margin-top: 15px;
+    padding: 10px;
+    border-radius: 6px;
+    font-weight: bold;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.comparison-match {
+    background: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.comparison-no-match {
+    background: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+/* Hash Education Styles */
+.hash-education {
+    position: relative;
+}
+
+.algorithm-info {
+    display: none;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+.algorithm-info.active {
+    display: block;
+}
+
+.algorithm-info h4 {
+    color: #2a5298;
+    margin-bottom: 10px;
+    font-size: 1.2em;
+    border-bottom: 2px solid #2a5298;
+    padding-bottom: 5px;
+}
+
+.algorithm-info ul {
+    list-style: none;
+    padding: 0;
+}
+
+.algorithm-info li {
+    background: rgba(42, 82, 152, 0.05);
+    margin: 8px 0;
+    padding: 10px;
+    border-radius: 6px;
+    border-left: 4px solid #2a5298;
+}
+
+.algorithm-info li strong {
+    color: #2a5298;
+}
+
+/* Textarea styles for hash lab */
+textarea {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    font-size: 16px;
+    font-family: inherit;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    resize: vertical;
+    margin-bottom: 10px;
+}
+
+textarea:focus {
+    outline: none;
+    border-color: #2a5298;
+    box-shadow: 0 0 10px rgba(42, 82, 152, 0.3);
+}
+
+/* Responsive design for hash lab */
+@media (max-width: 768px) {
+    .hash-controls {
+        flex-direction: column;
+    }
+    
+    .hash-controls .btn {
+        margin-right: 0;
+        margin-bottom: 10px;
+    }
+    
+    .info-row {
+        flex-direction: column;
+        gap: 5px;
+    }
+}
+
+/* Animation for fade in */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Hash Laboratory Basic Styles */
+select {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    font-size: 16px;
+    background: white;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    margin-bottom: 10px;
+}
+
+select:focus {
+    outline: none;
+    border-color: #2a5298;
+    box-shadow: 0 0 10px rgba(42, 82, 152, 0.3);
+}
+
+textarea {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    font-size: 16px;
+    font-family: inherit;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    resize: vertical;
+    margin-bottom: 10px;
+}
+
+textarea:focus {
+    outline: none;
+    border-color: #2a5298;
+    box-shadow: 0 0 10px rgba(42, 82, 152, 0.3);
+}
+
+textarea[readonly] {
+    background: #f8f9fa;
+    font-family: 'Courier New', monospace;
+    word-break: break-all;
+}
+
+/* ── Hash Lab Flex Layout ── */
+.hashlab-wrapper {
+  display: flex;
+  gap: 1rem;
+  width: 100%;
+  margin-bottom: 1.5rem;
+}
+
+/* Each child card (controls + results) flex to fill */
+.hashlab-wrapper .card {
+  flex: 1;
+  max-width: none;
+}
+
+/* Tweak internal button layout */
+.hash-controls__buttons {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-top: 1rem;
+}
+
+/* Now force the algorithm‑info card full width underneat */
+#hashlab .hash-info {
+  width: 100%;
+  max-width: none;
+}
+
+/* Ensure textareas & selects fill their containers */
+#hashlab textarea,
+#hashlab select {
+  width: 100%;
+}
+
+/* If your global .main-content grid is still bleeding in here, unset it */
+#hashlab .main-content {
+  display: block;
+}
+
+/* Mobile: stack panels vertically */
+@media (max-width: 768px) {
+  .hashlab-wrapper {
+    flex-direction: column;
+  }
+}
+
+/* Hash Laboratory Styles */
+.hash-select {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    font-size: 16px;
+    background: white;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    margin-bottom: 10px;
+}
+
+.hash-select:focus {
+    outline: none;
+    border-color: #2a5298;
+    box-shadow: 0 0 10px rgba(42, 82, 152, 0.3);
+}
+
+.hash-controls {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.hash-output-field {
+    font-family: 'Courier New', monospace;
+    background: #f8f9fa;
+    border: 2px solid #e9ecef;
+    word-break: break-all;
+    resize: vertical;
+}
+
+.hash-output-field:focus {
+    border-color: #2a5298;
+    box-shadow: 0 0 10px rgba(42, 82, 152, 0.3);
+}
+
+/* Hash Information Display */
+.hash-info {
+    background: rgba(42, 82, 152, 0.1);
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid rgba(42, 82, 152, 0.2);
+}
+
+.info-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    font-size: 0.9em;
+}
+
+.info-row:last-child {
+    margin-bottom: 0;
+}
+
+.info-label {
+    font-weight: bold;
+    color: #2a5298;
+}
+
+.info-value {
+    font-family: 'Courier New', monospace;
+    color: #333;
+    background: rgba(255, 255, 255, 0.7);
+    padding: 2px 6px;
+    border-radius: 4px;
+}
+
+/* Hash Comparison */
+.hash-comparison {
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 15px;
+    margin-top: 20px;
+    border: 1px solid #e9ecef;
+}
+
+.hash-comparison h3 {
+    margin-bottom: 15px;
+    color: #2a5298;
+    font-size: 1.1em;
+}
+
+.comparison-result {
+    margin-top: 15px;
+    padding: 10px;
+    border-radius: 6px;
+    font-weight: bold;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.comparison-match {
+    background: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.comparison-no-match {
+    background: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+/* Hash Education Styles */
+.hash-education {
+    position: relative;
+}
+
+.algorithm-info {
+    display: none;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+.algorithm-info.active {
+    display: block;
+}
+
+.algorithm-info h4 {
+    color: #2a5298;
+    margin-bottom: 10px;
+    font-size: 1.2em;
+    border-bottom: 2px solid #2a5298;
+    padding-bottom: 5px;
+}
+
+.algorithm-info ul {
+    list-style: none;
+    padding: 0;
+}
+
+.algorithm-info li {
+    background: rgba(42, 82, 152, 0.05);
+    margin: 8px 0;
+    padding: 10px;
+    border-radius: 6px;
+    border-left: 4px solid #2a5298;
+}
+
+.algorithm-info li strong {
+    color: #2a5298;
+}
+
+/* Textarea styles for hash lab */
+textarea {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    font-size: 16px;
+    font-family: inherit;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    resize: vertical;
+    margin-bottom: 10px;
+}
+
+textarea:focus {
+    outline: none;
+    border-color: #2a5298;
+    box-shadow: 0 0 10px rgba(42, 82, 152, 0.3);
+}
+
+/* Responsive design for hash lab */
+@media (max-width: 768px) {
+    .hash-controls {
+        flex-direction: column;
+    }
+    
+    .hash-controls .btn {
+        margin-right: 0;
+        margin-bottom: 10px;
+    }
+    
+    .info-row {
+        flex-direction: column;
+        gap: 5px;
+    }
+}
+
+/* Animation for fade in */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ==================== VAULT STYLES ==================== */
+
+/* ==================== TOAST NOTIFICATIONS ==================== */
+
+.toast-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1001;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-width: 350px;
+}
+
+.toast {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 8px;
+    padding: 12px 16px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    transform: translateX(100%);
+    transition: transform 0.3s ease;
+    border-left: 4px solid #2a5298;
+    backdrop-filter: blur(10px);
+}
+
+.toast.show {
+    transform: translateX(0);
+}
+
+.toast.success { border-left-color: #4caf50; }
+.toast.error { border-left-color: #f44336; }
+.toast.warning { border-left-color: #ff9800; }
+
+/* ==================== MASTER PASSWORD SCREEN ==================== */
+
+.master-screen {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.master-card {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 20px;
+    padding: 40px;
+    max-width: 600px;
+    width: 100%;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(10px);
+    animation: slideIn 0.5s ease;
+}
+
+.vault-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.vault-header h1 {
+    color: #2a5298;
+    font-size: 2.5em;
+    margin-bottom: 10px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.breadcrumb {
+    margin-top: 15px;
+}
+
+.breadcrumb-link {
+    color: #2a5298;
+    text-decoration: none;
+    font-size: 0.9em;
+    opacity: 0.8;
+    transition: opacity 0.2s;
+}
+
+.breadcrumb-link:hover {
+    opacity: 1;
+}
+
+/* Mode Selector */
+.mode-selector {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 25px;
+    background: rgba(42, 82, 152, 0.1);
+    border-radius: 12px;
+    padding: 8px;
+}
+
+.mode-btn {
+    flex: 1;
+    background: transparent;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    color: #2a5298;
+}
+
+.mode-btn.active {
+    background: #2a5298;
+    color: white;
+    box-shadow: 0 2px 8px rgba(42, 82, 152, 0.3);
+}
+
+.mode-btn:hover:not(.active) {
+    background: rgba(42, 82, 152, 0.1);
+}
+
+/* Master Form */
+.master-form {
+    margin-bottom: 25px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    font-weight: bold;
+    color: #555;
+    margin-bottom: 8px;
+}
+
+.password-input-group {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.master-input {
+    width: 100%;
+    padding: 15px;
+    border: 2px solid #ddd;
+    border-radius: 10px;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    background: rgba(255, 255, 255, 0.9);
+}
+
+.master-input:focus {
+    outline: none;
+    border-color: #2a5298;
+    box-shadow: 0 0 15px rgba(42, 82, 152, 0.3);
+    background: white;
+}
+
+.toggle-btn {
+    position: absolute;
+    right: 15px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+    color: #666;
+    transition: color 0.2s;
+}
+
+.toggle-btn:hover {
+    color: #2a5298;
+}
+
+/* Password Strength Indicator */
+.strength-indicator {
+    margin-top: 15px;
+    padding: 15px;
+    background: rgba(42, 82, 152, 0.05);
+    border-radius: 8px;
+    border: 1px solid rgba(42, 82, 152, 0.1);
+}
+
+.strength-text {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.strength-feedback {
+    font-size: 0.9em;
+    color: #666;
+}
+
+.master-submit {
+    width: 100%;
+    padding: 15px;
+    background: linear-gradient(135deg, #2a5298 0%, #1e3c72 100%);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.master-submit:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(42, 82, 152, 0.4);
+}
+
+.master-submit:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* Master Info */
+.master-info {
+    margin-top: 25px;
+}
+
+.info-card {
+    background: rgba(76, 175, 80, 0.1);
+    border: 1px solid rgba(76, 175, 80, 0.2);
+    border-radius: 10px;
+    padding: 20px;
+}
+
+.info-card h3 {
+    color: #2a5298;
+    margin-bottom: 12px;
+    font-size: 1.2em;
+}
+
+.info-card ul {
+    list-style: none;
+    padding: 0;
+}
+
+.info-card li {
+    margin-bottom: 8px;
+    padding-left: 16px;
+    position: relative;
+    font-size: 0.9em;
+}
+
+.info-card li:before {
+    content: "✓";
+    position: absolute;
+    left: 0;
+    color: #4caf50;
+    font-weight: bold;
+}
+
+/* ==================== MAIN VAULT INTERFACE ==================== */
+
+.vault-interface {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Header Bar */
+.vault-header-bar {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 15px 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.vault-header-bar h1 {
+    color: white;
+    font-size: 1.8em;
+    margin: 0;
+}
+
+.vault-status {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 0.9em;
+}
+
+.status-dot {
+    width: 8px;
+    height: 8px;
+    background: #4caf50;
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+}
+
+.header-right {
+    display: flex;
+    gap: 10px;
+}
+
+/* Main Content Area */
+.vault-main {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 1fr 400px;
+    gap: 0;
+    min-height: calc(100vh - 80px);
+}
+
+/* ==================== CREDENTIALS PANEL ==================== */
+
+.credentials-panel {
+    background: rgba(255, 255, 255, 0.95);
+    padding: 25px;
+    overflow-y: auto;
+}
+
+/* Add Credential Card */
+.add-credential-card {
+    background: white;
+    border-radius: 15px;
+    padding: 25px;
+    margin-bottom: 25px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(42, 82, 152, 0.1);
+}
+
+.add-credential-card h2 {
+    color: #2a5298;
+    margin-bottom: 20px;
+    font-size: 1.3em;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.credential-form .form-group {
+    margin-bottom: 15px;
+}
+
+.credential-form label {
+    display: block;
+    font-weight: bold;
+    color: #555;
+    margin-bottom: 5px;
+    font-size: 0.9em;
+}
+
+.credential-form input {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    font-size: 14px;
+    transition: border-color 0.3s ease;
+}
+
+.credential-form input:focus {
+    outline: none;
+    border-color: #2a5298;
+    box-shadow: 0 0 8px rgba(42, 82, 152, 0.2);
+}
+
+.password-generator-group {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.password-generator-group input {
+    flex: 1;
+}
+
+.form-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+/* Credentials List Card */
+.credentials-list-card {
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(42, 82, 152, 0.1);
+    overflow: hidden;
+}
+
+.list-header {
+    background: rgba(42, 82, 152, 0.05);
+    padding: 20px 25px;
+    border-bottom: 1px solid rgba(42, 82, 152, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.list-header h2 {
+    color: #2a5298;
+    margin: 0;
+    font-size: 1.3em;
+}
+
+.search-box input {
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    width: 200px;
+    font-size: 14px;
+}
+
+.credentials-list {
+    max-height: 500px;
+    overflow-y: auto;
+}
+
+/* Empty State */
+.empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    color: #666;
+}
+
+.empty-icon {
+    font-size: 4em;
+    margin-bottom: 15px;
+    opacity: 0.5;
+}
+
+.empty-state h3 {
+    margin-bottom: 10px;
+    color: #555;
+}
+
+/* Credential Item */
+.credential-item {
+    padding: 20px 25px;
+    border-bottom: 1px solid rgba(42, 82, 152, 0.1);
+    transition: background-color 0.2s;
+}
+
+.credential-item:hover {
+    background: rgba(42, 82, 152, 0.02);
+}
+
+.credential-item:last-child {
+    border-bottom: none;
+}
+
+.credential-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.credential-title {
+    font-weight: bold;
+    color: #2a5298;
+    font-size: 1.1em;
+}
+
+.credential-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.credential-details {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    font-size: 0.9em;
+}
+
+.credential-field {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.field-label {
+    font-weight: bold;
+    color: #666;
+    font-size: 0.8em;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.field-value {
+    color: #333;
+    font-family: 'Courier New', monospace;
+    padding: 4px 8px;
+    background: rgba(42, 82, 152, 0.05);
+    border-radius: 4px;
+    position: relative;
+}
+
+.password-field {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.password-value {
+    flex: 1;
+}
+
+.password-masked {
+    color: #666;
+    letter-spacing: 2px;
+}
+
+/* ==================== CRYPTO PANEL ==================== */
+
+.crypto-panel {
+    background: rgba(255, 255, 255, 0.95);
+    border-left: 1px solid rgba(42, 82, 152, 0.1);
+    overflow-y: auto;
+    transition: transform 0.3s ease;
+}
+
+.crypto-panel.hidden {
+    transform: translateX(100%);
+}
+
+.crypto-card {
+    padding: 25px;
+    height: 100%;
+}
+
+.crypto-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.crypto-header h2 {
+    color: #2a5298;
+    font-size: 1.3em;
+    margin: 0;
+}
+
+.help-toggle {
+    background: rgba(42, 82, 152, 0.1);
+    border: 1px solid rgba(42, 82, 152, 0.2);
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 14px;
+}
+
+.help-toggle:hover {
+    background: rgba(42, 82, 152, 0.2);
+    transform: scale(1.1);
+}
+
+/* Crypto Stats */
+.crypto-stats {
+    margin-bottom: 25px;
+}
+
+.stat-group {
+    margin-bottom: 25px;
+    padding: 15px;
+    background: rgba(42, 82, 152, 0.05);
+    border-radius: 10px;
+    border: 1px solid rgba(42, 82, 152, 0.1);
+}
+
+.stat-group h3 {
+    color: #2a5298;
+    font-size: 1em;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.stat-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+    font-size: 0.9em;
+}
+
+.stat-item:last-child {
+    margin-bottom: 0;
+}
+
+.stat-label {
+    font-weight: bold;
+    color: #666;
+}
+
+.stat-value {
+    color: #333;
+    font-family: 'Courier New', monospace;
+    background: rgba(255, 255, 255, 0.8);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 0.8em;
+}
+
+.stat-value.mono {
+    word-break: break-all;
+    text-align: right;
+    max-width: 150px;
+}
+
+/* Crypto Education */
+.crypto-education {
+    animation: slideDown 0.3s ease;
+}
+
+.education-section {
+    margin-bottom: 20px;
+    padding: 15px;
+    background: rgba(76, 175, 80, 0.05);
+    border-radius: 8px;
+    border-left: 4px solid #4caf50;
+}
+
+.education-section h4 {
+    color: #2a5298;
+    margin-bottom: 8px;
+    font-size: 1em;
+}
+
+.education-section p {
+    font-size: 0.85em;
+    line-height: 1.5;
+    color: #555;
+}
+
+/* ==================== VAULT BUTTONS ==================== */
+
+.btn-primary {
+    background: linear-gradient(135deg, #2a5298 0%, #1e3c72 100%);
+}
+
+.btn-secondary {
+    background: linear-gradient(135deg, #95a5a6 0%, #7f8c8d 100%);
+}
+
+.btn-generate {
+    background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%);
+    padding: 12px 16px;
+}
+
+.btn-small {
+    padding: 4px 8px;
+    font-size: 12px;
+}
+
+.btn-icon {
+    padding: 8px;
+    min-width: 36px;
+}
+
+/* ==================== MODALS ==================== */
+
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    backdrop-filter: blur(5px);
+}
+
+.modal-content {
+    background: white;
+    border-radius: 15px;
+    max-width: 500px;
+    width: 90%;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    animation: modalSlideIn 0.3s ease;
+}
+
+.modal-header {
+    padding: 20px 25px;
+    border-bottom: 1px solid rgba(42, 82, 152, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(42, 82, 152, 0.05);
+}
+
+.modal-header h3 {
+    color: #2a5298;
+    margin: 0;
+    font-size: 1.3em;
+}
+
+.modal-close {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: #666;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all 0.2s;
+}
+
+.modal-close:hover {
+    background: rgba(244, 67, 54, 0.1);
+    color: #f44336;
+}
+
+.modal-body {
+    padding: 25px;
+}
+
+.modal-footer {
+    padding: 20px 25px;
+    border-top: 1px solid rgba(42, 82, 152, 0.1);
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+    background: rgba(42, 82, 152, 0.02);
+}
+
+/* Password Generator Modal */
+.generator-options {
+    margin-bottom: 20px;
+}
+
+.option-group {
+    margin-bottom: 15px;
+}
+
+.option-group label {
+    display: block;
+    font-weight: bold;
+    color: #555;
+    margin-bottom: 8px;
+}
+
+.checkbox-label {
+    display: flex !important;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+}
+
+.checkbox-label input[type="checkbox"] {
+    margin: 0;
+}
+
+input[type="range"] {
+    width: 100%;
+    margin: 8px 0;
+}
+
+.generated-password {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.generated-password input {
+    flex: 1;
+    padding: 12px;
+    border: 2px solid #ddd;
+    border-radius: 6px;
+    font-family: 'Courier New', monospace;
+    font-size: 14px;
+    background: rgba(42, 82, 152, 0.05);
+}
+
+/* Warning Box */
+.warning-box {
+    background: rgba(255, 152, 0, 0.1);
+    border: 1px solid rgba(255, 152, 0, 0.3);
+    border-radius: 8px;
+    padding: 15px;
+    margin-top: 15px;
+}
+
+.warning-box p {
+    margin: 0;
+    color: #f57c00;
+    font-size: 0.9em;
+}
+
+/* ==================== LOADING OVERLAY ==================== */
+
+.loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1002;
+    backdrop-filter: blur(5px);
+}
+
+.loading-content {
+    background: white;
+    padding: 40px;
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+.spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid #2a5298;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 20px;
+}
+
+/* ==================== VAULT ANIMATIONS ==================== */
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes modalSlideIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* ==================== VAULT RESPONSIVE DESIGN ==================== */
+
+@media (max-width: 1200px) {
+    .vault-main {
+        grid-template-columns: 1fr 350px;
+    }
+    
+    .crypto-panel {
+        font-size: 0.9em;
+    }
+}
+
+@media (max-width: 968px) {
+    .vault-main {
+        grid-template-columns: 1fr;
+    }
+    
+    .crypto-panel {
+        display: none;
+    }
+    
+    .crypto-panel.show-mobile {
+        display: block;
+        position: fixed;
+        top: 0;
+        right: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 999;
+        transform: translateX(0);
+    }
+    
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+    
+    .credential-details {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .master-card {
+        padding: 25px;
+        margin: 10px;
+    }
+    
+    .vault-header h1 {
+        font-size: 2em;
+    }
+    
+    .vault-header-bar {
+        padding: 12px 15px;
+        flex-direction: column;
+        gap: 10px;
+        align-items: stretch;
+    }
+    
+    .header-left,
+    .header-right {
+        justify-content: center;
+    }
+    
+    .header-right {
+        flex-wrap: wrap;
+    }
+    
+    .credentials-panel {
+        padding: 15px;
+    }
+    
+    .add-credential-card,
+    .credentials-list-card {
+        margin-bottom: 15px;
+    }
+    
+    .search-box input {
+        width: 100%;
+        max-width: 200px;
+    }
+    
+    .list-header {
+        flex-direction: column;
+        gap: 15px;
+        align-items: stretch;
+    }
+    
+    .credential-item {
+        padding: 15px;
+    }
+    
+    .password-generator-group {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .form-actions {
+        flex-direction: column;
+    }
+    
+    .modal-content {
+        margin: 20px;
+        width: calc(100% - 40px);
+    }
+    
+    .toast-container {
+        left: 10px;
+        right: 10px;
+        max-width: none;
+    }
+}
+
+@media (max-width: 480px) {
+    .master-card {
+        padding: 20px;
+    }
+    
+    .mode-selector {
+        flex-direction: column;
+    }
+    
+    .credential-actions {
+        flex-direction: column;
+        gap: 4px;
+    }
+    
+    .btn {
+        padding: 10px 16px;
+    }
+    
+    .vault-header-bar h1 {
+        font-size: 1.5em;
+    }
+}
+
+/* ==================== ACCESSIBILITY ==================== */
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* Focus styles for keyboard navigation */
+button:focus,
+input:focus,
+select:focus,
+textarea:focus {
+    outline: 2px solid #2a5298;
+    outline-offset: 2px;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+    .master-card,
+    .add-credential-card,
+    .credentials-list-card,
+    .crypto-card {
+        border: 2px solid #000;
+    }
+    
+    .btn {
+        border: 2px solid #000;
+    }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
