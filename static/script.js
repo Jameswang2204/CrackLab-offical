@@ -838,7 +838,7 @@ function cacheVaultElements() {
         username: document.getElementById('username'),
         password: document.getElementById('password'),
         generatePasswordBtn: document.getElementById('generatePasswordBtn'),
-        toggleCredentialPasswordBtn: document.getElementById('toggleCredentialPasswordBtn'),
+        togglePasswordBtn: document.getElementById('togglePasswordBtn'),
         cancelEditBtn: document.getElementById('cancelEditBtn'),
         searchCredentials: document.getElementById('searchCredentials'),
         credentialsList: document.getElementById('credentialsList'),
@@ -883,16 +883,9 @@ function setupVaultEventListeners() {
     // Credential management
     if (e.addCredentialForm) e.addCredentialForm.addEventListener('submit', handleAddCredential);
     if (e.generatePasswordBtn) e.generatePasswordBtn.addEventListener('click', openPasswordGenerator);
-    if (e.toggleCredentialPasswordBtn) e.toggleCredentialPasswordBtn.addEventListener('click', () => toggleVaultPasswordVisibility('password'));
+    if (e.togglePasswordBtn) e.togglePasswordBtn.addEventListener('click', () => toggleVaultPasswordVisibility('password'));
     if (e.cancelEditBtn) e.cancelEditBtn.addEventListener('click', cancelEdit);
     if (e.searchCredentials) e.searchCredentials.addEventListener('input', handleSearch);
-    
-    // Password field - add input listener for strength feedback
-    if (e.password) {
-        e.password.addEventListener('input', updateCredentialPasswordStrength);
-        // Ensure the field is not readonly
-        e.password.removeAttribute('readonly');
-    }
     
     // Crypto panel
     if (e.cryptoHelpToggle) e.cryptoHelpToggle.addEventListener('click', toggleCryptoEducation);
@@ -1397,9 +1390,6 @@ function editCredential(id) {
     Vault.elements.username.value = credential.username;
     Vault.elements.password.value = credential.password;
     
-    // Update password strength display
-    updateCredentialPasswordStrength();
-    
     // Update UI state
     Vault.state.editingCredential = credential;
     Vault.elements.cancelEditBtn.style.display = 'inline-flex';
@@ -1413,11 +1403,6 @@ function cancelEdit() {
     Vault.state.editingCredential = null;
     Vault.elements.cancelEditBtn.style.display = 'none';
     clearCredentialForm();
-    // Ensure password field remains editable
-    if (Vault.elements.password) {
-        Vault.elements.password.removeAttribute('readonly');
-        Vault.elements.password.removeAttribute('disabled');
-    }
 }
 
 async function deleteCredential(id) {
@@ -1454,14 +1439,7 @@ async function deleteCredential(id) {
 function clearCredentialForm() {
     Vault.elements.addCredentialForm.reset();
     Vault.elements.password.type = 'password';
-    if (Vault.elements.toggleCredentialPasswordBtn) {
-        Vault.elements.toggleCredentialPasswordBtn.textContent = '👁️';
-    }
-    // Clear password strength feedback
-    const strengthDiv = document.getElementById('credentialPasswordStrength');
-    if (strengthDiv) {
-        strengthDiv.textContent = '';
-    }
+    Vault.elements.togglePasswordBtn.textContent = '👁️';
 }
 
 function handleSearch() {
@@ -1551,13 +1529,6 @@ function initializePasswordGenerator() {
         // Initial generation
         generateNewPassword();
     }
-    
-    // Ensure the credential password field is editable
-    const passwordField = document.getElementById('password');
-    if (passwordField) {
-        passwordField.removeAttribute('readonly');
-        passwordField.removeAttribute('disabled');
-    }
 }
 
 function setupPasswordGeneratorListeners() {
@@ -1589,17 +1560,6 @@ function openPasswordGenerator() {
     generateNewPassword();
     if (Vault.elements.passwordGeneratorModal) {
         Vault.elements.passwordGeneratorModal.style.display = 'flex';
-        
-        // If there's already a password typed, you might want to inform the user
-        if (Vault.elements.password && Vault.elements.password.value) {
-            const existingLength = Vault.elements.password.value.length;
-            const lengthSlider = document.getElementById('passwordLength');
-            if (lengthSlider && existingLength >= 8 && existingLength <= 32) {
-                lengthSlider.value = existingLength;
-                document.getElementById('lengthValue').textContent = existingLength;
-                generateNewPassword();
-            }
-        }
     }
 }
 
@@ -1653,40 +1613,11 @@ function generateSecurePassword(length, options) {
     return Array.from(array, byte => charset[byte % charset.length]).join('');
 }
 
-function updateCredentialPasswordStrength() {
-    const password = Vault.elements.password ? Vault.elements.password.value : '';
-    const strengthDiv = document.getElementById('credentialPasswordStrength');
-    
-    if (!strengthDiv) return;
-    
-    if (!password) {
-        strengthDiv.textContent = '';
-        return;
-    }
-    
-    const strength = analyzeVaultPasswordStrength(password);
-    const colors = {
-        'weak': '#ff6b6b',
-        'fair': '#ff9800',
-        'good': '#88cc00',
-        'strong': '#00cc44'
-    };
-    
-    strengthDiv.innerHTML = `
-        <span style="color: ${colors[strength.level] || '#666'}; font-weight: bold;">
-            ${strength.levelText} (${strength.score}/4)
-        </span>
-        ${strength.feedback.length > 0 ? ' - ' + strength.feedback[0] : ''}
-    `;
-}
-
 function useGeneratedPassword() {
     const generatedPassword = document.getElementById('generatedPassword')?.value;
     if (generatedPassword && Vault.elements.password) {
         Vault.elements.password.value = generatedPassword;
         closePasswordGenerator();
-        // Update password strength display
-        updateCredentialPasswordStrength();
         showVaultToast('Password applied!', 'success');
     }
 }
@@ -1828,7 +1759,7 @@ function toggleVaultPasswordVisibility(inputId) {
     const input = document.getElementById(inputId);
     const button = inputId === 'masterPassword' ? Vault.elements.toggleMasterPassword :
                    inputId === 'confirmPassword' ? Vault.elements.toggleConfirmPassword :
-                   Vault.elements.toggleCredentialPasswordBtn;
+                   Vault.elements.togglePasswordBtn;
     
     if (input && button) {
         const isPassword = input.type === 'password';
@@ -2008,7 +1939,6 @@ window.editCredential = editCredential;
 window.deleteCredential = deleteCredential;
 window.toggleCredentialPassword = toggleCredentialPassword;
 window.initializeVaultUI = initializeVaultUI;
-window.updateCredentialPasswordStrength = updateCredentialPasswordStrength;
 
 // ==================== ERROR HANDLING ==================== 
 
@@ -2024,4 +1954,5 @@ window.addEventListener('unhandledrejection', (e) => {
 
 // Export for debugging
 window.Vault = Vault;
+
 
